@@ -1,25 +1,17 @@
 module.exports = function check(str, bracketsConfig) {
-
-  const bracketsPair = bracketsConfig.reduce(function (previousValue, currentItem) {
-    previousValue[currentItem[1]] = currentItem[0];
-    return previousValue;
-  }, {})
-
-  const openBrackets = bracketsConfig.reduce(function (previousValue, currentItem) {
-    previousValue.push(currentItem[0]);
-    return previousValue;
-  }, [])
-
+  let bracketsPair = {}, openBrackets = []
+  bracketsConfig.map(item => {
+    bracketsPair[item[1]] = item[0];
+    openBrackets.push(item[0]);
+  })
+  console.log(bracketsPair)
   let stack = []
 
-  // const verticalBrQty = str.match(/[|]/g).length ? str.match(/[|]/g).length : 0;
-  // let verticalBrCount = 0
-
   for (let i = 0; i < str.length; i++) {
-
     let current = str[i]
 
-    if (openBrackets.includes(current)) {
+    if (stack[stack.length - 1] == current && bracketsPair[current] == current) stack.pop();
+    else if (openBrackets.includes(current)) {
       stack.push(current)
     } else {
 
